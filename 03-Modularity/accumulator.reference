@@ -1,0 +1,15 @@
+accumulator
+	add(x)
+	subtract(x)
+	multiply(x)
+	divide(x)
+	getResult()
+
+accumulatorClient
+	add(100)
+	subtract(50)
+	multiply(2)
+	divide(5)
+	getResult() => 20
+
+	
