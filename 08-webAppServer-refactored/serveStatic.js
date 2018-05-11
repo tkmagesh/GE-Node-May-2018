@@ -7,16 +7,18 @@ function isStatic(resource){
 	return staticResourceExtns.indexOf(extn) > -1;
 }
 
-module.exports = function(req, res, next){
-	let resourceName = req.urlObj.pathname === '/' ? '/index.html' : req.urlObj.pathname,
-		resource = path.join(__dirname, resourceName);
-	if (isStatic(resource) && fs.existsSync(resource)){
-		var stream = fs.createReadStream(resource).pipe(res);
-		stream.on('end', function(){
+module.exports = function(resourcePath){
+	return function(req, res, next){
+		let resourceName = req.urlObj.pathname === '/' ? '/index.html' : req.urlObj.pathname,
+			resource = path.join(resourcePath, resourceName);
+		if (isStatic(resource) && fs.existsSync(resource)){
+			var stream = fs.createReadStream(resource).pipe(res);
+			stream.on('end', function(){
+				next();
+			});
+		} else {
 			next();
-		});
-	} else {
-		next();
+		}
 	}
 }
 
